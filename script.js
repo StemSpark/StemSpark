@@ -5,50 +5,12 @@ const imageWrap = document.querySelector(".image-wrap");
 const bigName = document.querySelector(".big-name");
 
 function runAnimation() {
-    let hasPlayed = sessionStorage.getItem("animationPlayed");
-
-    if (!hasPlayed) {
-        let timeline = gsap.timeline({
-            defaults: { duration: 1, ease: "power3.out" }
-        });
-
-        timeline.to(".image-wrap", {
-            height: "550px", 
-            backgroundSize: "120%", 
-            backgroundPosition: "center center", 
-            duration: 1,
-            ease: "power3.inOut", 
-        }).to(
-            ".image-wrap", {
-                height: "250px", 
-                backgroundPosition: "center center", 
-                y: "-10", 
-                duration: 1, 
-            }, "-=0.3" 
-        ).call(() => {
-            
-            gsap.fromTo(".big-name", {
-                y: "50px", 
-                opacity: 0
-            }, {
-                y: "0",
-                opacity: 1,
-                duration: 0.3,
-                ease: "power3.out"
-            });
-        }).from(".hide", {
-            opacity: "0",
-            duration: 0.3,
-        }, "-=0.2"); 
-        sessionStorage.setItem("animationPlayed", "true");
-    } else {
-        imageWrap.style.height = "250px";
-        imageWrap.style.backgroundSize = "100%";
-        imageWrap.style.backgroundPosition = "center center";
-        imageWrap.style.transform = "translateX(-50%)"; 
-        bigName.style.opacity = "1";
-        bigName.style.transform = "translateY(0)";
-    }
+    imageWrap.style.height = "250px";
+    imageWrap.style.backgroundSize = "100%";
+    imageWrap.style.backgroundPosition = "center center";
+    imageWrap.style.transform = "translateX(-50%)";
+    bigName.style.opacity = "1";
+    bigName.style.transform = "translateY(0)";
 }
 
 function getYDistance(el) {
