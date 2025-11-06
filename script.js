@@ -37,3 +37,19 @@ elements.forEach(el => {
 });
 
 runAnimation();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.querySelector('.hamburger');
+  const navList   = document.querySelector('.nav-list');
+
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', () => {
+      navList.classList.toggle('active');
+      const icon = hamburger.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('bx-menu');
+        icon.classList.toggle('bx-x');
+      }
+    });
+  }
+});
