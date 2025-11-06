@@ -4,7 +4,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    cursor: none;
 }
 
 ::selection{
@@ -207,43 +206,9 @@ nav .register-btn {
     background-image: linear-gradient(to top, #ff4848, #ff4848);
 }
 
-.cursor-circle{
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    transform: translate(calc(-50%), calc(-50%));
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 0.1px solid #3c3c3c;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    transition-duration: 0.2s, 0.3s, 0.3s, 0.3s, 0.08s;
-    transition-property: opacity, width, height, background-color, transform;
-}
 
-.cursor-point{
-    position: fixed;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    top: 0px;
-    left: 0px;
-    transform: translate(calc(-50%), calc(-50%));
-    background-color: #3c3c3c;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.2s opacity;
-}
 
-.cursor-circle.biggerCursor{
-    width: 70px;
-    height: 70px;
-    background-color: rgba(105, 105, 105, 0.4);
-}
+
 
 .form-container {
     background: #f3bb83;
@@ -604,4 +569,58 @@ nav .register-btn {
     h1, h2, h3 {
         text-align: center;
     }
+}
+.hamburger {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  color: #ff4848;
+  cursor: pointer;
+  z-index: 100; 
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+.nav-list {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  background-color: #efb071;
+  padding: 1rem 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 50;
+  transition: all 0.3s ease;
+}
+
+.nav-list.active {
+  display: flex;
+}
+
+main, .image-wrap, .big-name {
+  position: relative;
+  z-index: 1;
+}
+
+
+  .nav-link a {
+    padding: 1rem 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  nav .register-btn {
+    position: static;
+    margin: 10px auto 0;
+    display: block;
+  }
 }
