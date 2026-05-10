@@ -76,8 +76,6 @@
   .form-msg.success { display: block; background: rgba(0,194,199,0.12); border: 1.5px solid var(--cyan); color: var(--cyan); }
   .form-msg.error   { display: block; background: rgba(255,107,107,0.1); border: 1.5px solid var(--red); color: var(--red); }
 
-
-
   /* FOOTER */
   footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.07); padding: 1.4rem 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
   footer span { font-size: 0.8rem; color: rgba(242,222,196,0.4); }
@@ -99,6 +97,7 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
+
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" onclick="closeMobile()">About</a>
   <a href="classes.html" onclick="closeMobile()">Classes</a>
@@ -134,11 +133,10 @@
 
     <div class="form-card">
       <h3>Send a Message</h3>
-
       <form class="form" action="https://formsubmit.co/stemsparktutors@gmail.com" method="POST">
         <input type="hidden" name="_subject" value="New StemSpark Inquiry">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://stemspark.github.io/StemSpark/contact.html">
+        <input type="hidden" name="_next" value="https://stemspark.github.io/StemSpark/contact.html?sent=true">
         <div class="form-row">
           <div class="fg">
             <label for="c-name">Name</label>
@@ -170,19 +168,25 @@
 </footer>
 
 <script>
-  // Show success message if redirected back after form submit
+  // Handle form success message from URL
   if (window.location.search.includes('sent=true')) {
     const msg = document.getElementById('formMsg');
     if (msg) {
-      msg.textContent = '✅ Message sent! We'll be in touch soon.';
+      msg.textContent = "✅ Message sent! We'll be in touch soon.";
       msg.className = 'form-msg success';
     }
   }
 
+  // Hamburger toggle
   document.getElementById('hamburger').addEventListener('click', () => {
     document.getElementById('mobileMenu').classList.toggle('open');
   });
-  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // Close menu when link is clicked
+  function closeMobile() { 
+    document.getElementById('mobileMenu').classList.remove('open'); 
+  }
 </script>
+
 </body>
 </html>
