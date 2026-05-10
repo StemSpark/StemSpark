@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StemSpark — About Us</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00C2C7; --red: #FF6B6B; --black: #0D0D0D;
+    --tan: #F2DEC4; --white: #FAFAF8; --cyan-dark: #009EA3;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; max-width: 100%; overflow-x: hidden; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; max-width: 100%; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100; background: var(--black);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 66px; gap: 2rem;
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--cyan); text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0; }
+  .nav-logo span { color: var(--tan); }
+  .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+  .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--tan); text-decoration: none; padding: 7px 15px; border-radius: 4px; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+  .nav-links a:hover { background: rgba(242,222,196,0.13); color: var(--white); }
+  .nav-links a.active { color: var(--cyan); background: rgba(0,194,199,0.1); }
+  .nav-register { background: var(--cyan) !important; color: var(--black) !important; font-weight: 700 !important; margin-left: 0.5rem; }
+  .nav-register:hover { background: var(--cyan-dark) !important; color: var(--black) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; flex-shrink: 0; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--tan); border-radius: 2px; }
+  .mobile-menu { display: none; flex-direction: column; background: var(--black); padding: 1rem 5vw 1.5rem; gap: 0; border-top: 1px solid rgba(255,255,255,0.08); }
+  .mobile-menu a { color: var(--tan); text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 1rem; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu .mob-reg { margin-top: 0.75rem; background: var(--cyan); color: var(--black); font-weight: 700; padding: 11px 16px; border-radius: 5px; text-align: center; border-bottom: none; }
+  .mobile-menu.open { display: flex; }
+  @media (max-width: 760px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+  /* HERO */
+  .hero { background: var(--black); padding: 64px 5vw 56px; }
+  .hero-label { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
+  .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3.4rem); color: var(--white); line-height: 1.08; }
+  .hero h1 em { font-style: normal; color: var(--red); }
+
+  /* ABOUT */
+  .about-section { padding: 64px 5vw 56px; }
+  .body-text p { font-size: 1.05rem; line-height: 1.78; color: #3a3a3a; margin-bottom: 1.1rem; max-width: 740px; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.75rem; }
+  .pill { background: var(--black); color: var(--tan); font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 600; padding: 5px 15px; border-radius: 100px; letter-spacing: 0.04em; }
+
+  /* MISSION */
+  .mission { background: var(--tan); padding: 52px 5vw; }
+  .mission-inner { max-width: 1100px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  @media (max-width: 620px) { .mission-inner { grid-template-columns: 1fr; } }
+  .mission-item { background: var(--white); border-radius: 10px; padding: 1.5rem; border-left: 4px solid var(--cyan); }
+  .mission-item.red { border-left-color: var(--red); }
+  .mission-item.blk { border-left-color: var(--black); }
+  .mission-item h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--black); margin-bottom: 0.5rem; }
+  .mission-item p { font-size: 0.87rem; line-height: 1.6; color: #555; }
+
+  /* TUTORS */
+  .tutors-section { padding: 64px 5vw 80px; background: var(--white); }
+  .section-label { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
+  .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3.5vw, 2.2rem); color: var(--black); margin-bottom: 2rem; }
+  .section-title em { font-style: normal; color: var(--red); }
+
+  .tutors-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+    max-width: 860px;
+  }
+  @media (max-width: 640px) { .tutors-grid { grid-template-columns: 1fr; max-width: 420px; } }
+
+  .tutor-card { background: var(--black); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+
+  .tutor-photo-wrap { width: 100%; height: 340px; overflow: hidden; }
+  .tutor-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .tutor-photo-placeholder { width: 100%; height: 340px; display: flex; align-items: center; justify-content: center; }
+  .tutor-initials { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; }
+
+  .tutor-body { padding: 1.6rem 1.6rem 2rem; flex: 1; display: flex; flex-direction: column; }
+  .tutor-badge-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 6px; }
+  .tutor-teaches { font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); }
+  .founder-badge { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--red); color: var(--white); padding: 2px 9px; border-radius: 100px; }
+  .tutor-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--white); margin-bottom: 0.8rem; }
+  .tutor-divider { width: 36px; height: 3px; background: var(--red); border-radius: 2px; margin-bottom: 1rem; }
+
+  .qual-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .qual-list li { font-size: 0.87rem; line-height: 1.55; color: rgba(242,222,196,0.65); padding-left: 1.1rem; position: relative; }
+  .qual-list li::before { content: '›'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+
+  /* FOOTER */
+  footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.07); padding: 1.4rem 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  footer span { font-size: 0.8rem; color: rgba(242,222,196,0.4); }
+  footer a { font-size: 0.8rem; color: var(--cyan); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Stem<span>Spark</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">About</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a class="nav-register" href="https://app.squareup.com/appointments/book/myg3ed4uhqa0el/LSPSKVR47J9WM/start" target="_blank">Register</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMobile()">About</a>
+  <a href="classes.html" onclick="closeMobile()">Classes</a>
+  <a href="contact.html" onclick="closeMobile()">Contact</a>
+  <a href="reviews.html" onclick="closeMobile()">Reviews</a>
+  <a class="mob-reg" href="https://app.squareup.com/appointments/book/myg3ed4uhqa0el/LSPSKVR47J9WM/start" target="_blank">Register Now</a>
+</div>
+
+<div class="hero">
+  <div class="hero-label">Who We Are</div>
+  <h1>Sparking Curiosity<br>in <em>STEM</em></h1>
+</div>
+
+<div class="about-section">
+  <div class="body-text">
+    <p>StemSpark is a non-profit initiative designed to engage students in STEM through fun and interactive lessons. We believe every student deserves access to high-quality education in the fields shaping tomorrow.</p>
+    <p>Offering a range of courses in coding, video and photo editing, 3D design, and math — StemSpark aims to spark curiosity and foster a genuine love for learning. Our goal is to make STEM accessible and exciting for students everywhere through online education.</p>
+    <p>Whether a student is just starting out or looking to deepen their skills, StemSpark provides a supportive environment where exploration is encouraged and learning never stops.</p>
+    <div class="pill-row">
+      <span class="pill">Online Learning</span>
+      <span class="pill">Non-Profit</span>
+      <span class="pill">Student-Focused</span>
+      <span class="pill">Interactive Lessons</span>
+    </div>
+  </div>
+</div>
+
+<div class="mission">
+  <div class="mission-inner">
+    <div class="mission-item">
+      <h4>Accessible Education</h4>
+      <p>We remove barriers to STEM learning by offering online courses that students can join from anywhere.</p>
+    </div>
+    <div class="mission-item red">
+      <h4>Hands-On Learning</h4>
+      <p>Every course is built around doing — real projects, real tools, and real skills students can show off.</p>
+    </div>
+    <div class="mission-item blk">
+      <h4>Ignite Passion</h4>
+      <p>Our mission is to turn curiosity into confidence and help every student find their spark in STEM.</p>
+    </div>
+  </div>
+</div>
+
+<div class="tutors-section">
+  <div class="section-label">The Team</div>
+  <div class="section-title">Meet Our <em>Tutors</em></div>
+
+  <div class="tutors-grid">
+
+    <!-- Hridhaan Vohra -->
+    <div class="tutor-card">
+      <div class="tutor-photo-wrap">
+        <img src="hridhaan.jpg" alt="Hridhaan Vohra" loading="lazy">
+      </div>
+      <div class="tutor-body">
+        <div class="tutor-badge-row">
+          <span class="tutor-teaches">All Courses</span>
+          <span class="founder-badge">Founder</span>
+        </div>
+        <div class="tutor-name">Hridhaan Vohra</div>
+        <div class="tutor-divider"></div>
+        <ul class="qual-list">
+          <li>Completed Computer Science Courses Including AP Computer Science A (CSA)</li>
+          <li>Mathematics through Precalculus</li>
+          <li>UIUC 4-H Illinois Competition Champion</li>
+          <li>USACO Silver Division competitor</li>
+          <li>Passionate about the future of AI and its real-world applications</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Zachary Hernandez -->
+    <div class="tutor-card">
+      <div class="tutor-photo-wrap">
+        <img src="zachary.jpg" alt="Zachary Hernandez" loading="lazy">
+      </div>
+      <div class="tutor-body">
+        <div class="tutor-badge-row">
+          <span class="tutor-teaches">Python &amp; Math</span>
+        </div>
+        <div class="tutor-name">Zachary Hernandez</div>
+        <div class="tutor-divider"></div>
+        <ul class="qual-list">
+          <li>4 years of computer science coursework</li>
+          <li>Mathematics through Precalculus</li>
+          <li>2nd place at Science Bowl Regional competition</li>
+          <li>Top 20 sophomore — CCML Math Competition</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 StemSpark. Non-profit initiative. Not yet filed.</span>
+  <a href="mailto:stemsparktutors@gmail.com">stemsparktutors@gmail.com</a>
+</footer>
+
+<script>
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+</script>
+</body>
+</html>

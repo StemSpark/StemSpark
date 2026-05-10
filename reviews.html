@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StemSpark — Reviews</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root {
+    --cyan: #00C2C7; --red: #FF6B6B; --black: #0D0D0D;
+    --tan: #F2DEC4; --white: #FAFAF8; --cyan-dark: #009EA3;
+  }
+  html { max-width: 100%; overflow-x: hidden; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; max-width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100; background: var(--black);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 66px; gap: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--cyan); text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0; }
+  .nav-logo span { color: var(--tan); }
+  .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+  .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--tan); text-decoration: none; padding: 7px 15px; border-radius: 4px; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+  .nav-links a:hover { background: rgba(242,222,196,0.13); color: var(--white); }
+  .nav-links a.active { color: var(--cyan); background: rgba(0,194,199,0.1); }
+  .nav-register { background: var(--cyan) !important; color: var(--black) !important; font-weight: 700 !important; margin-left: 0.5rem; }
+  .nav-register:hover { background: var(--cyan-dark) !important; color: var(--black) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; flex-shrink: 0; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--tan); border-radius: 2px; }
+  .mobile-menu { display: none; flex-direction: column; background: var(--black); padding: 1rem 5vw 1.5rem; gap: 0; border-top: 1px solid rgba(255,255,255,0.08); }
+  .mobile-menu a { color: var(--tan); text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 1rem; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu .mob-reg { margin-top: 0.75rem; background: var(--cyan); color: var(--black); font-weight: 700; padding: 11px 16px; border-radius: 5px; text-align: center; border-bottom: none; }
+  .mobile-menu.open { display: flex; }
+  @media (max-width: 760px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+  /* HERO */
+  .hero { padding: 64px 5vw 56px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .hero-label { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
+  .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3.4rem); color: var(--white); line-height: 1.08; }
+  .hero h1 em { font-style: normal; color: var(--red); }
+  .hero p { margin-top: 1rem; font-size: 1rem; color: rgba(242,222,196,0.55); max-width: 500px; line-height: 1.65; }
+
+  /* MAIN */
+  main { flex: 1; padding: 56px 5vw 80px; max-width: 1100px; width: 100%; }
+
+  /* SUBMIT FORM */
+  .submit-section { margin-bottom: 3.5rem; }
+  .sub-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--white); margin-bottom: 1.25rem; }
+  .sub-form { background: rgba(242,222,196,0.05); border: 1px solid rgba(242,222,196,0.12); border-radius: 12px; padding: 1.75rem 1.75rem 2rem; display: flex; flex-direction: column; gap: 1rem; max-width: 640px; }
+  .fg { display: flex; flex-direction: column; gap: 5px; }
+  .fg label { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(242,222,196,0.55); }
+  .fg input, .fg textarea, .fg select { border: 2px solid rgba(242,222,196,0.13); border-radius: 6px; padding: 10px 13px; font-family: 'DM Sans', sans-serif; font-size: 0.93rem; color: var(--white); background: rgba(255,255,255,0.04); outline: none; transition: border-color 0.15s; resize: vertical; }
+  .fg input::placeholder, .fg textarea::placeholder { color: rgba(242,222,196,0.25); }
+  .fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(--cyan); }
+  .fg select option { background: #1a1a1a; color: var(--white); }
+  .star-row { display: flex; gap: 6px; }
+  .star-btn { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: rgba(242,222,196,0.2); transition: color 0.1s; line-height: 1; padding: 0; }
+  .star-btn.active { color: #FFD166; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+  @media (max-width: 500px) { .form-row-2 { grid-template-columns: 1fr; } }
+  .btn-submit { background: var(--cyan); color: var(--black); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.05em; border: none; border-radius: 6px; padding: 12px 24px; cursor: pointer; transition: background 0.15s, opacity 0.15s; align-self: flex-start; }
+  .btn-submit:hover { background: var(--cyan-dark); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .form-msg { display: none; border-radius: 7px; padding: 0.9rem 1.1rem; font-size: 0.9rem; }
+  .form-msg.success { display: block; background: rgba(0,194,199,0.1); border: 1.5px solid var(--cyan); color: var(--cyan); }
+  .form-msg.error   { display: block; background: rgba(255,107,107,0.1); border: 1.5px solid var(--red); color: var(--red); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 0 0 3rem; }
+
+  /* APPROVED REVIEWS */
+  .reviews-label { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.6rem; }
+  .reviews-heading { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.4rem, 3vw, 1.9rem); color: var(--white); margin-bottom: 1.75rem; }
+  .reviews-heading em { font-style: normal; color: var(--red); }
+  .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.1rem; }
+  .review-card { background: rgba(242,222,196,0.05); border: 1px solid rgba(242,222,196,0.1); border-radius: 10px; padding: 1.4rem 1.4rem 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .review-stars { font-size: 1rem; letter-spacing: 0.05em; color: #FFD166; }
+  .review-text { font-size: 0.92rem; line-height: 1.65; color: rgba(242,222,196,0.75); flex: 1; }
+  .review-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+  .review-author { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--white); }
+  .review-course { font-size: 0.76rem; color: var(--cyan); background: rgba(0,194,199,0.1); padding: 2px 9px; border-radius: 100px; font-family: 'Syne', sans-serif; font-weight: 600; }
+
+  /* EMPTY */
+  .empty-state { border: 2px dashed rgba(242,222,196,0.15); border-radius: 12px; padding: 48px 2rem; text-align: center; }
+  .empty-state .big { font-size: 2.2rem; margin-bottom: 0.75rem; }
+  .empty-state p { color: rgba(242,222,196,0.38); font-size: 0.95rem; line-height: 1.6; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; margin-top: 3rem; }
+  @media (max-width: 560px) { .stats { grid-template-columns: 1fr; } }
+  .stat { background: rgba(242,222,196,0.04); border-radius: 10px; padding: 1.4rem 1.2rem; border: 1px solid rgba(242,222,196,0.09); text-align: center; }
+  .stat-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.1rem; color: var(--cyan); }
+  .stat-label { font-size: 0.78rem; color: rgba(242,222,196,0.4); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Syne', sans-serif; font-weight: 600; }
+
+  /* ADMIN TRIGGER */
+  .admin-trigger { background: none; border: none; color: rgba(242,222,196,0.15); font-family: 'DM Sans', sans-serif; font-size: 0.75rem; cursor: pointer; padding: 4px 0; margin-top: 3rem; display: block; transition: color 0.15s; }
+  .admin-trigger:hover { color: rgba(242,222,196,0.4); }
+
+  /* ADMIN OVERLAY */
+  .admin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .admin-overlay.open { display: flex; }
+  .admin-panel { background: #111; border: 1px solid rgba(242,222,196,0.14); border-radius: 14px; width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(242,222,196,0.1); flex-shrink: 0; }
+  .admin-header h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); }
+  .admin-header h2 span { color: var(--red); }
+  .admin-close { background: none; border: none; color: rgba(242,222,196,0.5); font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 2px 6px; }
+  .admin-close:hover { color: var(--white); }
+
+  /* LOGIN */
+  .admin-login { padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .admin-login p { font-size: 0.9rem; color: rgba(242,222,196,0.5); }
+  .admin-login input { border: 2px solid rgba(242,222,196,0.15); border-radius: 6px; padding: 10px 13px; font-family: 'DM Sans', sans-serif; font-size: 0.93rem; color: var(--white); background: rgba(255,255,255,0.04); outline: none; transition: border-color 0.15s; width: 100%; }
+  .admin-login input:focus { border-color: var(--cyan); }
+  .btn-login { background: var(--cyan); color: var(--black); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; border: none; border-radius: 6px; padding: 11px 22px; cursor: pointer; align-self: flex-start; }
+  .btn-login:hover { background: var(--cyan-dark); }
+  .login-err { display: none; color: var(--red); font-size: 0.85rem; }
+  .login-err.show { display: block; }
+
+  /* MOD PANEL */
+  .admin-mod { padding: 0 1.5rem 1.5rem; display: none; flex-direction: column; }
+  .admin-mod.visible { display: flex; }
+  .mod-tabs { display: flex; border-bottom: 1px solid rgba(242,222,196,0.1); margin-bottom: 0.25rem; flex-shrink: 0; padding-top: 1rem; }
+  .mod-tab { background: none; border: none; border-bottom: 2px solid transparent; color: rgba(242,222,196,0.4); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 18px; cursor: pointer; transition: color 0.15s; margin-bottom: -1px; }
+  .mod-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+  .mod-tab-count { background: var(--red); color: var(--white); font-size: 0.65rem; border-radius: 100px; padding: 1px 6px; margin-left: 5px; }
+  .mod-empty { color: rgba(242,222,196,0.35); font-size: 0.9rem; padding: 2rem 0; text-align: center; }
+  .pending-card { border-bottom: 1px solid rgba(242,222,196,0.08); padding: 1.1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .pending-card:last-child { border-bottom: none; }
+  .pc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .pc-info .pc-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; color: var(--white); }
+  .pc-info .pc-meta { font-size: 0.78rem; color: rgba(242,222,196,0.4); margin-top: 2px; }
+  .pc-stars { font-size: 0.95rem; color: #FFD166; }
+  .pc-text { font-size: 0.88rem; line-height: 1.6; color: rgba(242,222,196,0.6); }
+  .pc-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .btn-approve { background: rgba(0,194,199,0.12); color: var(--cyan); border: 1px solid var(--cyan); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.75rem; padding: 6px 14px; border-radius: 5px; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+  .btn-approve:hover { background: rgba(0,194,199,0.28); }
+  .btn-deny { background: rgba(255,107,107,0.1); color: var(--red); border: 1px solid var(--red); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.75rem; padding: 6px 14px; border-radius: 5px; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+  .btn-deny:hover { background: rgba(255,107,107,0.25); }
+  .btn-del { background: none; border: none; color: rgba(255,107,107,0.4); font-size: 1.1rem; cursor: pointer; padding: 4px; transition: color 0.15s; }
+  .btn-del:hover { color: var(--red); }
+
+  /* FOOTER */
+  footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.07); padding: 1.4rem 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
+  footer span { font-size: 0.8rem; color: rgba(242,222,196,0.4); }
+  footer a { font-size: 0.8rem; color: var(--cyan); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Stem<span>Spark</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">About</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reviews.html" class="active">Reviews</a></li>
+    <li><a class="nav-register" href="https://app.squareup.com/appointments/book/myg3ed4uhqa0el/LSPSKVR47J9WM/start" target="_blank">Register</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMobile()">About</a>
+  <a href="classes.html" onclick="closeMobile()">Classes</a>
+  <a href="contact.html" onclick="closeMobile()">Contact</a>
+  <a href="reviews.html" onclick="closeMobile()">Reviews</a>
+  <a class="mob-reg" href="https://app.squareup.com/appointments/book/myg3ed4uhqa0el/LSPSKVR47J9WM/start" target="_blank">Register Now</a>
+</div>
+
+<div class="hero">
+  <div class="hero-label">What Students Say</div>
+  <h1>Student <em>Reviews</em></h1>
+  <p>Loved a class? Share your experience below. All reviews are checked by our team before going live.</p>
+</div>
+
+<main>
+  <!-- SUBMIT -->
+  <div class="submit-section">
+    <div class="sub-title">Leave a Review</div>
+    <div class="sub-form">
+      <div class="form-row-2">
+        <div class="fg">
+          <label>Your Name</label>
+          <input type="text" id="r-name" placeholder="Jane Smith">
+        </div>
+        <div class="fg">
+          <label>Course Taken</label>
+          <select id="r-course">
+            <option value="">Select a course…</option>
+            <option>Artificial Intelligence</option>
+            <option>Python Programming</option>
+            <option>Scratch</option>
+            <option>Photoshop</option>
+            <option>Video Editing</option>
+            <option>3D Design</option>
+            <option>Math</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Rating</label>
+        <div class="star-row" id="starRow">
+          <button class="star-btn" data-val="1" type="button">★</button>
+          <button class="star-btn" data-val="2" type="button">★</button>
+          <button class="star-btn" data-val="3" type="button">★</button>
+          <button class="star-btn" data-val="4" type="button">★</button>
+          <button class="star-btn" data-val="5" type="button">★</button>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Your Review</label>
+        <textarea id="r-text" rows="4" placeholder="Tell us about your experience…"></textarea>
+      </div>
+      <button class="btn-submit" id="submitBtn" type="button" onclick="submitReview()">Submit Review</button>
+      <div class="form-msg" id="submitMsg"></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="reviews-label">Verified Students</div>
+  <div class="reviews-heading">Approved <em>Reviews</em></div>
+  <div id="reviewsContainer"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="statCount">0</div><div class="stat-label">Reviews</div></div>
+    <div class="stat"><div class="stat-num" id="statAvg">—</div><div class="stat-label">Avg Rating</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Courses</div></div>
+  </div>
+
+  <button class="admin-trigger" type="button" onclick="openAdmin()">Admin</button>
+</main>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h2>Review <span>Moderation</span></h2>
+      <button class="admin-close" type="button" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-login" id="adminLogin">
+      <p>Enter the admin password to manage reviews.</p>
+      <input type="password" id="adminPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="login-err" id="loginErr">Incorrect password.</div>
+      <button class="btn-login" type="button" onclick="doLogin()">Log In</button>
+    </div>
+    <div class="admin-mod" id="adminMod">
+      <div class="mod-tabs">
+        <button class="mod-tab active" type="button" onclick="switchTab('pending',this)">
+          Pending <span class="mod-tab-count" id="pendingCount">0</span>
+        </button>
+        <button class="mod-tab" type="button" onclick="switchTab('approved',this)">
+          Approved <span class="mod-tab-count" id="approvedCount" style="background:var(--cyan);color:var(--black);">0</span>
+        </button>
+      </div>
+      <div id="modContent"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 StemSpark. Non-profit initiative. Not yet filed.</span>
+  <a href="mailto:stemsparktutors@gmail.com">stemsparktutors@gmail.com</a>
+</footer>
+
+<script>
+  // ── SAME EMAILJS CONFIG AS CONTACT PAGE ──
+  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'YOUR_REVIEW_TEMPLATE_ID'; // can reuse same template or make a separate one
+
+  const configured = EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY';
+  if (configured) emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  const ADMIN_PASSWORD = 'stemspark2025'; // change this
+
+  // ── STORAGE ──
+  function getPending()  { try { return JSON.parse(localStorage.getItem('ss_pending')  || '[]'); } catch { return []; } }
+  function getApproved() { try { return JSON.parse(localStorage.getItem('ss_approved') || '[]'); } catch { return []; } }
+  function savePending(d)  { localStorage.setItem('ss_pending',  JSON.stringify(d)); }
+  function saveApproved(d) { localStorage.setItem('ss_approved', JSON.stringify(d)); }
+
+  // ── STARS ──
+  let selectedRating = 0;
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedRating = +btn.dataset.val;
+      updateStars(selectedRating);
+    });
+    btn.addEventListener('mouseover', () => updateStars(+btn.dataset.val));
+    btn.addEventListener('mouseout',  () => updateStars(selectedRating));
+  });
+  function updateStars(val) {
+    document.querySelectorAll('.star-btn').forEach(b => b.classList.toggle('active', +b.dataset.val <= val));
+  }
+
+  // ── SUBMIT ──
+  async function submitReview() {
+    const name   = document.getElementById('r-name').value.trim();
+    const course = document.getElementById('r-course').value;
+    const text   = document.getElementById('r-text').value.trim();
+    const btn    = document.getElementById('submitBtn');
+
+    if (!name || !course || !text || !selectedRating) {
+      showFormMsg('Please fill in all fields and pick a star rating.', 'error');
+      return;
+    }
+
+    const review = {
+      id: Date.now(), name, course, text,
+      rating: selectedRating,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
+
+    // Save locally for moderation
+    const pending = getPending();
+    pending.push(review);
+    savePending(pending);
+    updateCounts();
+
+    // Also notify via email
+    if (configured) {
+      btn.disabled = true; btn.textContent = 'Submitting…';
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          from_name:  name,
+          from_email: 'noreply@stemspark',
+          subject:    `New Review – ${course}`,
+          message:    `Rating: ${'★'.repeat(review.rating)}\nCourse: ${course}\nReview: ${text}\nDate: ${review.date}`,
+          to_email:   'stemsparktutors@gmail.com'
+        });
+      } catch (e) { /* silently fail — review is already saved locally */ }
+      btn.textContent = 'Submit Review';
+      btn.disabled = false;
+    }
+
+    // Reset form
+    document.getElementById('r-name').value  = '';
+    document.getElementById('r-course').value = '';
+    document.getElementById('r-text').value  = '';
+    selectedRating = 0; updateStars(0);
+    showFormMsg('✅ Thanks! Your review is pending approval and will appear shortly.', 'success');
+  }
+
+  function showFormMsg(text, type) {
+    const el = document.getElementById('submitMsg');
+    el.textContent = text; el.className = `form-msg ${type}`;
+  }
+
+  // ── RENDER APPROVED ──
+  function renderApproved() {
+    const approved = getApproved();
+    const container = document.getElementById('reviewsContainer');
+    document.getElementById('statCount').textContent = approved.length;
+    if (approved.length === 0) {
+      container.innerHTML = `<div class="empty-state"><div class="big">⭐</div><p>No approved reviews yet.<br>Be one of our first students!</p></div>`;
+      document.getElementById('statAvg').textContent = '—';
+      return;
+    }
+    const avg = (approved.reduce((s, r) => s + r.rating, 0) / approved.length).toFixed(1);
+    document.getElementById('statAvg').textContent = avg + '★';
+    container.innerHTML = `<div class="reviews-grid">${approved.map(r => `
+      <div class="review-card">
+        <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        <div class="review-text">"${r.text}"</div>
+        <div class="review-meta">
+          <span class="review-author">${r.name}</span>
+          <span class="review-course">${r.course}</span>
+        </div>
+      </div>`).join('')}</div>`;
+  }
+
+  function updateCounts() {
+    document.getElementById('pendingCount').textContent  = getPending().length;
+    document.getElementById('approvedCount').textContent = getApproved().length;
+  }
+
+  // ── ADMIN ──
+  let adminAuthed = false;
+  let currentTab  = 'pending';
+
+  function openAdmin() { document.getElementById('adminOverlay').classList.add('open'); if (adminAuthed) showMod(); }
+  function closeAdmin() { document.getElementById('adminOverlay').classList.remove('open'); }
+  document.getElementById('adminOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeAdmin(); });
+
+  function doLogin() {
+    if (document.getElementById('adminPass').value === ADMIN_PASSWORD) {
+      adminAuthed = true;
+      document.getElementById('adminLogin').style.display = 'none';
+      document.getElementById('loginErr').classList.remove('show');
+      showMod();
+    } else {
+      document.getElementById('loginErr').classList.add('show');
+      document.getElementById('adminPass').value = '';
+    }
+  }
+
+  function showMod() {
+    document.getElementById('adminMod').classList.add('visible');
+    updateCounts(); renderModTab(currentTab);
+  }
+
+  function switchTab(tab, el) {
+    currentTab = tab;
+    document.querySelectorAll('.mod-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active'); renderModTab(tab);
+  }
+
+  function renderModTab(tab) {
+    const items = tab === 'pending' ? getPending() : getApproved();
+    const el = document.getElementById('modContent');
+    if (items.length === 0) { el.innerHTML = `<p class="mod-empty">${tab === 'pending' ? 'No pending reviews.' : 'No approved reviews yet.'}</p>`; return; }
+    el.innerHTML = items.map(r => `
+      <div class="pending-card">
+        <div class="pc-top">
+          <div class="pc-info">
+            <div class="pc-name">${r.name}</div>
+            <div class="pc-meta">${r.course} · ${r.date}</div>
+          </div>
+          <div class="pc-actions">
+            ${tab === 'pending'
+              ? `<button class="btn-approve" type="button" onclick="approveReview(${r.id})">✓ Approve</button>
+                 <button class="btn-deny"    type="button" onclick="denyReview(${r.id})">✕ Deny</button>`
+              : `<button class="btn-del" type="button" onclick="deleteApproved(${r.id})" title="Remove">🗑</button>`}
+          </div>
+        </div>
+        <div class="pc-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        <div class="pc-text">"${r.text}"</div>
+      </div>`).join('');
+  }
+
+  function approveReview(id) {
+    const pending = getPending(), approved = getApproved();
+    const idx = pending.findIndex(r => r.id === id);
+    if (idx === -1) return;
+    approved.unshift(pending.splice(idx, 1)[0]);
+    savePending(pending); saveApproved(approved);
+    updateCounts(); renderModTab('pending'); renderApproved();
+  }
+  function denyReview(id) {
+    savePending(getPending().filter(r => r.id !== id));
+    updateCounts(); renderModTab('pending');
+  }
+  function deleteApproved(id) {
+    if (!confirm('Remove this approved review?')) return;
+    saveApproved(getApproved().filter(r => r.id !== id));
+    updateCounts(); renderModTab('approved'); renderApproved();
+  }
+
+  // NAV
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // INIT
+  renderApproved(); updateCounts();
+</script>
+</body>
+</html>
