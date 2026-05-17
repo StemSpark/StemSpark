@@ -19,8 +19,11 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 5vw; height: 66px; gap: 2rem;
   }
-  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--cyan); text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0; }
-  .nav-logo span { color: var(--tan); }
+  .nav-logo { text-decoration: none; flex-shrink: 0; display: flex; align-items: center; gap: 10px; }
+.nav-logo svg { display: block; flex-shrink: 0; }
+.nav-logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; white-space: nowrap; line-height: 1; }
+.logo-stem { color: var(--cyan); }
+.logo-spark { color: var(--tan); }
   .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
   .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--tan); text-decoration: none; padding: 7px 15px; border-radius: 4px; transition: background 0.15s, color 0.15s; white-space: nowrap; }
   .nav-links a:hover { background: rgba(242,222,196,0.13); color: var(--white); }
@@ -76,6 +79,8 @@
   .form-msg.success { display: block; background: rgba(0,194,199,0.12); border: 1.5px solid var(--cyan); color: var(--cyan); }
   .form-msg.error   { display: block; background: rgba(255,107,107,0.1); border: 1.5px solid var(--red); color: var(--red); }
 
+
+
   /* FOOTER */
   footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.07); padding: 1.4rem 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
   footer span { font-size: 0.8rem; color: rgba(242,222,196,0.4); }
@@ -85,8 +90,13 @@
 <body>
 
 <nav>
-  <a class="nav-logo" href="index.html">Stem<span>Spark</span></a>
-  <ul class="nav-links">
+<a class="nav-logo" href="index.html" aria-label="StemSpark home">
+  <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+    <rect width="34" height="34" rx="8" fill="#00C2C7"/>
+    <polygon points="17,5 23,17 17,13 11,24 17,20 23,29" fill="#0D0D0D"/>
+  </svg>
+  <span class="nav-logo-text"><span class="logo-stem">Stem</span><span class="logo-spark">Spark</span></span>
+</a>  <ul class="nav-links">
     <li><a href="index.html">About</a></li>
     <li><a href="classes.html">Classes</a></li>
     <li><a href="contact.html" class="active">Contact</a></li>
@@ -97,7 +107,6 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
-
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" onclick="closeMobile()">About</a>
   <a href="classes.html" onclick="closeMobile()">Classes</a>
@@ -133,10 +142,11 @@
 
     <div class="form-card">
       <h3>Send a Message</h3>
+
       <form class="form" action="https://formsubmit.co/stemsparktutors@gmail.com" method="POST">
         <input type="hidden" name="_subject" value="New StemSpark Inquiry">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://stemspark.github.io/StemSpark/contact.html?sent=true">
+        <input type="hidden" name="_next" value="https://stemspark.org/contact.html?sent=true">
         <div class="form-row">
           <div class="fg">
             <label for="c-name">Name</label>
@@ -168,25 +178,19 @@
 </footer>
 
 <script>
-  // Handle form success message from URL
+  // Show success message if redirected back after form submit
   if (window.location.search.includes('sent=true')) {
     const msg = document.getElementById('formMsg');
     if (msg) {
-      msg.textContent = "✅ Message sent! We'll be in touch soon.";
+      msg.textContent = '✅ Message sent! We'll be in touch soon.';
       msg.className = 'form-msg success';
     }
   }
 
-  // Hamburger toggle
   document.getElementById('hamburger').addEventListener('click', () => {
     document.getElementById('mobileMenu').classList.toggle('open');
   });
-
-  // Close menu when link is clicked
-  function closeMobile() { 
-    document.getElementById('mobileMenu').classList.remove('open'); 
-  }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
 </script>
-
 </body>
 </html>
