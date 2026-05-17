@@ -20,9 +20,11 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 5vw; height: 66px; gap: 2rem;
   }
-  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--cyan); text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0; }
-  .nav-logo span { color: var(--tan); }
-  .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+.nav-logo { text-decoration: none; flex-shrink: 0; display: flex; align-items: center; gap: 10px; }
+.nav-logo svg { display: block; flex-shrink: 0; }
+.nav-logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; white-space: nowrap; line-height: 1; }
+.logo-stem { color: var(--cyan); }
+.logo-spark { color: var(--tan); }  .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
   .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--tan); text-decoration: none; padding: 7px 15px; border-radius: 4px; transition: background 0.15s, color 0.15s; white-space: nowrap; }
   .nav-links a:hover { background: rgba(242,222,196,0.13); color: var(--white); }
   .nav-links a.active { color: var(--cyan); background: rgba(0,194,199,0.1); }
@@ -67,8 +69,13 @@
 <body>
 
 <nav>
-  <a class="nav-logo" href="index.html">Stem<span>Spark</span></a>
-  <ul class="nav-links">
+<a class="nav-logo" href="index.html" aria-label="StemSpark home">
+  <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+    <rect width="34" height="34" rx="8" fill="#00C2C7"/>
+    <polygon points="17,5 23,17 17,13 11,24 17,20 23,29" fill="#0D0D0D"/>
+  </svg>
+  <span class="nav-logo-text"><span class="logo-stem">Stem</span><span class="logo-spark">Spark</span></span>
+</a>  <ul class="nav-links">
     <li><a href="index.html">About</a></li>
     <li><a href="classes.html" class="active">Classes</a></li>
     <li><a href="contact.html">Contact</a></li>
